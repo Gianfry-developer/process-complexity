@@ -167,7 +167,18 @@ def generate_pm4py_log(filename=None, verbose=False):
 		from pm4py.objects.log.importer.xes import importer as xes_importer
 		pm4py_log = xes_importer.apply(input_file)
 	elif (filename.split(".")[-1]=="csv"):
-		subprocess.call(["head", filename])
+		# to print header instead of calling sub process "header"
+		print(f"--- First 10 lines of {filename} ---")
+		try:
+		    with open(filename, 'r', encoding='utf-8') as f:
+		        for i in range(10):
+		            line = f.readline()
+		            if not line:
+		                break
+		            print(line.strip())
+		    print("------------------------------------")
+		except Exception as e:
+		    print(f"Could not display the head of the file: {e}")
 		i_h = input("Does the file have a header? [y/N]:") or "n"
 		h = 0 if i_h != "n" else None
 		i_d = input("What is the delimiter? [,]:") or ","
