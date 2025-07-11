@@ -188,6 +188,7 @@ def generate_pm4py_log(filename=None, verbose=False):
 				log_csv.rename(columns={col:'column'+str(col)}, inplace=True)
 		log_csv = dataframe_utils.convert_timestamp_columns_in_df(log_csv)
 		log_csv = log_csv.sort_values('time:timestamp')
+		log_csv = pd.to_datetime(log_csv["time:timestamp"], format="%Y-%m-%d %H:%M:%S", errors='coerce')
 		parameters = {log_converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: 'case'}
 		if(verbose):
 			print(log_csv)
